@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace AspNet.Core.Blazor.WebAssembly
+namespace Blazor.WebAssembly
 {
     public class Program
     {

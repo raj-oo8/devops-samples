@@ -1,7 +1,7 @@
 name: GitHub Pages Deploy
 on: workflow_dispatch
 env:
-  PUBLISH_DIR: src/AspNet.Core.Blazor.WebAssembly/bin/Release/net8.0/publish/wwwroot
+  PUBLISH_DIR: src/Blazor.WebAssembly/bin/Release/net8.0/publish/wwwroot
 
 jobs:
 
@@ -24,7 +24,7 @@ jobs:
     
     # Step 3: Publish App
     - name: Publish app
-      run: dotnet publish ./src/AspNet.Core.Blazor.WebAssembly/AspNet.Core.Blazor.WebAssembly.csproj -c Release
+      run: dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c Release
 
     # Step 4: Rewrite base hypertext reference
     - name: Rewrite base hypertext reference
