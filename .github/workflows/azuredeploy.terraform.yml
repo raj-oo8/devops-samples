@@ -1,8 +1,8 @@
 name: Azure Terraform Provision and Deploy
 on: workflow_dispatch
 env:
-  RESOURCE_GROUP_NAME: helloworld-services
-  STATIC_WEB_APP_NAME: azure-static-web-apps-001
+  RESOURCE_GROUP_NAME: devops-samples
+  STATIC_WEB_APP_NAME: azure-static-web-app
 
 jobs:
 
