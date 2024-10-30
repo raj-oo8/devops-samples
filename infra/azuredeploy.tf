@@ -10,7 +10,7 @@ variable "subscription_id" {
 
 variable "staticSites_name" {
   type        = string
-  default     = "azure-static-web-apps-001"
+  default     = "azure-static-web-app"
 }
 
 variable "resource_group_name" {

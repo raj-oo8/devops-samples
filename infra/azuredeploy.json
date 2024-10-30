@@ -4,7 +4,7 @@
   "parameters": {
     "staticSites_name": {
       "type": "string",
-      "defaultValue": "azure-static-web-apps-001"
+      "defaultValue": "azure-static-web-app"
     }
   },
   "resources": [
