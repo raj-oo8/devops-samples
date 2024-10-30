@@ -1,5 +1,11 @@
 provider "azurerm" {
   features {}
+  subscription_id = var.subscription_id
+}
+
+variable "subscription_id" {
+  description = "The subscription ID"
+  type        = string
 }
 
 variable "staticSites_name" {
