@@ -1,7 +1,7 @@
 name: Azure Bicep Provision and Deploy
 on: workflow_dispatch
 env:
-  RESOURCE_GROUP_NAME: helloworld-services
+  RESOURCE_GROUP_NAME: devops-samples
   STATIC_WEB_APP_NAME: azure-static-web-apps-001
 
 jobs:
