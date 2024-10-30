@@ -37,7 +37,7 @@ jobs:
 
       # Apply Terraform
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "staticSites_name=${{ vars.STATIC_WEB_APP_NAME }}" -var "resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}"
+        run: terraform apply -auto-approve -var "staticSites_name=${{ vars.STATIC_WEB_APP_NAME }}" -var "resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
         working-directory: ./infra
 
       # Get Azure Static Web App deployment token
