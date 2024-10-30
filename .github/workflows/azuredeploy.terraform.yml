@@ -1,8 +1,5 @@
 name: Azure Terraform Provision and Deploy
 on: workflow_dispatch
-#env:
-#  RESOURCE_GROUP_NAME: devops-samples
-#  STATIC_WEB_APP_NAME: azure-static-web-app
 
 jobs:
 
@@ -35,19 +32,19 @@ jobs:
 
       # Import existing resources
       - name: Import Static Web App
-        run: terraform import -var="resource_group_name=${{ env.RESOURCE_GROUP_NAME }}" azurerm_static_web_app.example /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP_NAME }}/providers/Microsoft.Web/staticSites/${{ env.STATIC_WEB_APP_NAME }}
+        run: terraform import -var="resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}" azurerm_static_web_app.example /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.RESOURCE_GROUP_NAME }}/providers/Microsoft.Web/staticSites/${{ vars.STATIC_WEB_APP_NAME }}
         working-directory: ./infra
 
       # Apply Terraform
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "staticSites_name=${{ env.STATIC_WEB_APP_NAME }}" -var "resource_group_name=${{ env.RESOURCE_GROUP_NAME }}"
+        run: terraform apply -auto-approve -var "staticSites_name=${{ vars.STATIC_WEB_APP_NAME }}" -var "resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}"
         working-directory: ./infra
 
       # Get Azure Static Web App deployment token
       - name: Get Azure Static Web App deployment token
         id: get-token
         run: |
-          TOKEN=$(az staticwebapp secrets list --name ${{ env.STATIC_WEB_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "properties.apiKey" -o tsv)
+          TOKEN=$(az staticwebapp secrets list --name ${{ vars.STATIC_WEB_APP_NAME }} --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --query "properties.apiKey" -o tsv)
           echo "STATIC_WEB_APP_TOKEN=$TOKEN" >> $GITHUB_ENV
 
       # Deploy to Azure Static Web Apps
