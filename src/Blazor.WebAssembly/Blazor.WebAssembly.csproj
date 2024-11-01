@@ -5,7 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-  </PropertyGroup>
+
+<PublishDir>docs</PublishDir>
+</PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="wwwroot\lib\**" />
