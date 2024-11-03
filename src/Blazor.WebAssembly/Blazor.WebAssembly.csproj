@@ -5,7 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-  </PropertyGroup>
+
+<PublishDir>docs</PublishDir>
+</PropertyGroup>
 
   <!-- For Azure Static Web Apps -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
