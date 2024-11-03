@@ -7,6 +7,16 @@
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
+  <!-- For Azure Static Web Apps -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+  </PropertyGroup>
+
+  <!-- For GitHub Pages -->
+  <PropertyGroup Condition="'$(Configuration)' == 'GitHubPages'">
+    <StaticWebAssetBasePath>/devops-samples/</StaticWebAssetBasePath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="wwwroot\lib\**" />
     <Content Remove="wwwroot\lib\**" />

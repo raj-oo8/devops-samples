@@ -49,6 +49,7 @@ jobs:
           action: 'upload'
           app_location: '/src/Blazor.WebAssembly'
           output_location: 'wwwroot'
+          app_build_command: 'dotnet publish -c Release'
 
       # Logout of Azure
       - name: Logout of Azure

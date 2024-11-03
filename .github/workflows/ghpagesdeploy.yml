@@ -24,16 +24,9 @@ jobs:
     
     # Step 3: Publish App
     - name: Publish app
-      run: dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c Release
-
-    # Step 4: Rewrite base hypertext reference
-    - name: Rewrite base hypertext reference
-      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
-      with:
-        html_path: ${{ env.PUBLISH_DIR }}/index.html
-        base_href: /devops-samples/
-
-    # Step 5: Archive production artifacts
+      run: dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c GitHubPages
+    
+    # Step 4: Archive production artifacts
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
