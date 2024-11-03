@@ -29,7 +29,7 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj
 
-      # Step 4: Publish App
+      # Step 4: Publish Application
       - name: Publish Application
         run: |
           dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c GitHubPages -o ${{ env.PUBLISH_DIR }}
@@ -65,8 +65,5 @@ jobs:
       # Step 1: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-        # The deploy-pages action automatically picks up the artifact named 'github-pages'
-        # If you've named your artifact differently, specify it using the 'artifact_name' input
-        # Example: artifact_name: 'published-app'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
