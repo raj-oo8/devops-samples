@@ -1,4 +1,5 @@
 name: GitHub Pages Deploy
+
 on:
   workflow_dispatch:
 
@@ -14,9 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       # Step 1: Checkout the repository
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       # Step 2: Setup .NET
@@ -25,21 +25,25 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # Step 3: Publish App
-      - name: Publish app
+      # Step 3: Restore Dependencies
+      - name: Restore Dependencies
+        run: dotnet restore ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj
+
+      # Step 4: Publish App
+      - name: Publish Application
         run: |
-          dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c GitHubPages -o src/Blazor.WebAssembly/bin/GitHubPages/net8.0/publish
+          dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c GitHubPages -o ${{ env.PUBLISH_DIR }}
         env:
           DOTNET_ROOT: /usr/share/dotnet
 
-      # Step 4: List published files for debugging
-      - name: List published files
+      # Step 5: List Published Files for Debugging
+      - name: List Published Files
         run: ls -R ${{ env.PUBLISH_DIR }}
         if: always()
 
-      # Step 5: Upload Pages Artifact
+      # Step 6: Upload Pages Artifact
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ env.PUBLISH_DIR }}
 
@@ -53,9 +57,16 @@ jobs:
       pages: write
       id-token: write
 
+    # Define the environment to satisfy the deploy-pages action requirements
+    environment:
+      name: github-pages
+
     steps:
       # Step 1: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+        # The deploy-pages action automatically picks up the artifact named 'github-pages'
+        # If you've named your artifact differently, specify it using the 'artifact_name' input
+        # Example: artifact_name: 'published-app'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
