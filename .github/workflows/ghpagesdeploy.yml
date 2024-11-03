@@ -1,6 +1,7 @@
 name: GitHub Pages Deploy
 on: workflow_dispatch
 env:
+  # Define the output directory explicitly
   PUBLISH_DIR: src/Blazor.WebAssembly/bin/GitHubPages/net8.0/publish/wwwroot
 
 jobs:
@@ -24,7 +25,10 @@ jobs:
     
       # Step 3: Publish App
       - name: Publish app
-        run: dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c GitHubPages
+        run: |
+          dotnet publish ./src/Blazor.WebAssembly/Blazor.WebAssembly.csproj -c GitHubPages -o src/Blazor.WebAssembly/bin/GitHubPages/net8.0/publish
+        env:
+          DOTNET_ROOT: /usr/share/dotnet
 
       # Step 3.5: List published files for debugging
       - name: List published files
@@ -41,8 +45,6 @@ jobs:
           compression-level: 6
           overwrite: false
           include-hidden-files: false
-        env:
-          DOTNET_ROOT: /usr/share/dotnet
 
 
   #====== Deploy to GitHub Pages ======#
