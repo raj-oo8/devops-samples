@@ -37,7 +37,7 @@ jobs:
 
       # # Import existing resources
       - name: Import Static Web App
-        run: terraform import -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -var="resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}" azurerm_static_web_app.example /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.RESOURCE_GROUP_NAME }}/providers/Microsoft.Web/staticSites/${{ vars.STATIC_WEB_APP_NAME }}
+        run: terraform import -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -var="resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}" -var="location=${{ vars.RESOURCE_LOCATION }}" azurerm_static_web_app.example /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.RESOURCE_GROUP_NAME }}/providers/Microsoft.Web/staticSites/${{ vars.STATIC_WEB_APP_NAME }}
         working-directory: ./infra
 
       # Apply Terraform
