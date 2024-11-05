@@ -35,14 +35,9 @@ jobs:
         run: |
           az group create --name ${{ vars.RESOURCE_GROUP_NAME }} --location ${{ vars.RESOURCE_LOCATION }}
 
-      # Import existing resources with SKU variable
+      # Import existing resources without SKU variables
       - name: Import Static Web App
-        run: terraform import \
-          -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
-          -var="resource_group_name=${{ vars.RESOURCE_GROUP_NAME }}" \
-          -var="location=${{ vars.RESOURCE_LOCATION }}" \
-          -var="sku_tier=${{ vars.STATIC_WEB_APP_SKU }}" \
-          azurerm_static_web_app.example /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.RESOURCE_GROUP_NAME }}/providers/Microsoft.Web/staticSites/${{ vars.STATIC_WEB_APP_NAME }}
+        run: terraform import azurerm_static_web_app.example /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.RESOURCE_GROUP_NAME }}/providers/Microsoft.Web/staticSites/${{ vars.STATIC_WEB_APP_NAME }}
         working-directory: ./infra
 
       # Apply Terraform
