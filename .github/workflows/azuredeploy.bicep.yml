@@ -30,7 +30,7 @@ jobs:
           resourceGroupName: ${{ vars.RESOURCE_GROUP_NAME }}
           template: ./infra/azuredeploy.bicep
           deploymentMode: Incremental
-          parameters: staticSites_name=${{ vars.STATIC_WEB_APP_NAME }}
+          parameters: staticSites_name=${{ vars.STATIC_WEB_APP_NAME }} staticSites_location=${{ vars.RESOURCE_LOCATION }} staticSites_sku=${{ vars.STATIC_WEB_APP_SKU }}
 
       # Get Azure Static Web App deployment token
       - name: Get Azure Static Web App deployment token

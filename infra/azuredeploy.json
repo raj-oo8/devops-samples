@@ -5,6 +5,14 @@
     "staticSites_name": {
       "type": "string",
       "defaultValue": "azure-static-web-app"
+    },
+    "staticSites_location": {
+      "type": "string",
+      "defaultValue": "East Asia"
+    },
+    "staticSites_sku": {
+      "type": "string",
+      "defaultValue": "Free"
     }
   },
   "resources": [
@@ -12,9 +20,9 @@
       "type": "Microsoft.Web/staticSites",
       "apiVersion": "2023-01-01",
       "name": "[parameters('staticSites_name')]",
-      "location": "East Asia",
+      "location": "[parameters('staticSites_location')]",
       "sku": {
-        "name": "Free"
+        "name": "[parameters('staticSites_sku')]"
       },
       "properties": {}
     }
