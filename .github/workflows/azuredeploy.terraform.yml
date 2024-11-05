@@ -39,7 +39,7 @@ jobs:
       - name: Create terraform.tfvars
         run: |
           echo 'staticSites_name="${{ vars.STATIC_WEB_APP_NAME }}"' > ./infra/terraform.tfvars
-          echo 'subscription_id="${{ secrets.AZURE_SUBSCRIPTION_ID }}"' > ./infra/terraform.tfvars
+          echo 'subscription_id="${{ secrets.AZURE_SUBSCRIPTION_ID }}"' >> ./infra/terraform.tfvars
           echo 'resource_group_name="${{ vars.RESOURCE_GROUP_NAME }}"' >> ./infra/terraform.tfvars
           echo 'location="${{ vars.RESOURCE_LOCATION }}"' >> ./infra/terraform.tfvars
           echo 'sku_tier="${{ vars.STATIC_WEB_APP_SKU }}"' >> ./infra/terraform.tfvars
