@@ -3,16 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "staticSites_name": {
-      "type": "string",
-      "defaultValue": "azure-static-web-app"
+      "type": "string"
     },
     "staticSites_location": {
-      "type": "string",
-      "defaultValue": "East Asia"
+      "type": "string"
     },
     "staticSites_sku": {
-      "type": "string",
-      "defaultValue": "Free"
+      "type": "string"
     }
   },
   "resources": [

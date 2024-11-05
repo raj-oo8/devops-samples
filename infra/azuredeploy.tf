@@ -4,23 +4,18 @@ provider "azurerm" {
 }
 
 variable "subscription_id" {
-  description = "The subscription ID"
   type        = string
 }
 variable "staticSites_name" {
   type        = string
-  default     = "azure-static-web-app"
 }
 variable "resource_group_name" {
-  description = "The name of the resource group"
   type        = string
 }
 variable "location" {
-  description = "The location for the resource group"
   type        = string
 }
 variable "sku_tier" {
-  description = "The SKU tier for the static web app"
   type        = string
 }
 
