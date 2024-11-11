@@ -12,7 +12,6 @@ This repository contains sample projects covering various topics to demonstrate 
 
 ### Web Development
 
-- GitHub Pages
 - Service Worker
 - Progressive Web App
 - Blazor WebAssembly
@@ -33,5 +32,4 @@ This repository contains sample projects covering various topics to demonstrate 
 
 ### GitHub Ecosystem
 
-- GitHub Marketplace
 - GitHub Copilot
