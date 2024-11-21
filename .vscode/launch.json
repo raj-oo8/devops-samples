@@ -5,7 +5,9 @@
             "name": "Launch and Debug Standalone Blazor WebAssembly App",
             "type": "blazorwasm",
             "request": "launch",
-            "cwd": "${workspaceFolder}/src/Blazor.WebAssembly"
+            "cwd": "${workspaceFolder}/src/Blazor.WebAssembly",
+            "url": "http://localhost:5130",
+            "webRoot": "${workspaceFolder}/src/Blazor.WebAssembly"
         }
     ]
 }
