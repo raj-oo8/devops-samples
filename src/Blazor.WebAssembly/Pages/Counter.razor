@@ -1,4 +1,8 @@
 ﻿@page "/counter"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject IConfiguration Configuration
+@implements IAsyncDisposable
+
 <PageTitle>Counter</PageTitle>
 <h1>Counter</h1>
 <p role="status">Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge></p>
@@ -6,30 +10,48 @@
 
 @code {
     private int currentCount = 0;
-    private Timer timer = new Timer();
+    private HubConnection? hubConnection;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        timer = new Timer(1000); // Set the timer to tick every 1000 milliseconds (1 second)
-        timer.Elapsed += TimerElapsed;
-        timer.AutoReset = true; // Continue the timer in a loop
-        timer.Enabled = true; // Start the timer
-    }
+        try
+        {
+            var negotiateUrl = Configuration["SignalR:Url"];
 
-    private void TimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {
-        IncrementCount();
-        InvokeAsync(StateHasChanged); // Re-render the component on the UI thread
+            if (string.IsNullOrEmpty(negotiateUrl))
+            {
+                throw new InvalidOperationException("SignalR negotiate URL is not configured.");
+            }
+
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl(negotiateUrl)
+                .Build();
+
+            hubConnection.On<int>("ReceiveCount", (count) =>
+            {
+                currentCount = count;
+                InvokeAsync(StateHasChanged);
+            });
+
+            await hubConnection.StartAsync();
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or handle it as needed
+            Console.Error.WriteLine($"Error initializing SignalR connection: {ex.Message}");
+        }
     }
 
     private void IncrementCount()
     {
-        currentCount++; // Increment the counter
+        currentCount++; // Increment the counter manually
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        timer?.Dispose(); // Clean up the timer when the component is disposed
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
 }
-

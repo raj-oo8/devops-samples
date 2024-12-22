@@ -5,18 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-
-<PublishDir>docs</PublishDir>
-</PropertyGroup>
+    <PublishDir>docs</PublishDir>
+  </PropertyGroup>
 
   <!-- For Azure Static Web Apps -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
-  </PropertyGroup>
-
-  <!-- For GitHub Pages -->
-  <PropertyGroup Condition="'$(Configuration)' == 'GitHubPages'">
-    <StaticWebAssetBasePath>/devops-samples/</StaticWebAssetBasePath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,11 +23,20 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.0" />
-	<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <!-- Ensure appsettings.json is copied to the output directory -->
+  <ItemGroup>
+    <None Update="wwwroot/appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
 </Project>

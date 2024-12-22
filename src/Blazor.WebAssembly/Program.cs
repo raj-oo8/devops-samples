@@ -12,6 +12,12 @@ namespace Blazor.WebAssembly
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
+            // Load the appsettings.json file from wwwroot
+            var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+            var configResponse = await httpClient.GetAsync("appsettings.json");
+            var configStream = await configResponse.Content.ReadAsStreamAsync();
+            builder.Configuration.AddJsonStream(configStream);
+
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddFluentUIComponents();
 
