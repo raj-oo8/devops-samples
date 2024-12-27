@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure as Code", "I
 		..\infra\azuredeploy.tf = ..\infra\azuredeploy.tf
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure_Function", "Azure.Function\Azure_Function.csproj", "{47298F12-1B31-4D1F-B575-D74F81775671}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{09D305EB-4B87-446E-95D1-E3996522DAD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D305EB-4B87-446E-95D1-E3996522DAD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D305EB-4B87-446E-95D1-E3996522DAD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47298F12-1B31-4D1F-B575-D74F81775671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47298F12-1B31-4D1F-B575-D74F81775671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47298F12-1B31-4D1F-B575-D74F81775671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47298F12-1B31-4D1F-B575-D74F81775671}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

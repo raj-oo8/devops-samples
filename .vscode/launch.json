@@ -8,6 +8,12 @@
             "cwd": "${workspaceFolder}/src/Blazor.WebAssembly",
             "url": "http://localhost:5130",
             "webRoot": "${workspaceFolder}/src/Blazor.WebAssembly"
+        },
+        {
+            "name": "Attach to .NET Functions",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:azureFunctions.pickProcess}"
         }
     ]
 }
