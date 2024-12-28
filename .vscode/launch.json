@@ -11,30 +11,16 @@
             "webRoot": "${workspaceFolder}/src/Blazor.WebAssembly"
         },
         {
-            "name": "Launch Azure Functions",
+            "name": "Attach to .NET Functions",
             "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "start func host",
-            "program": "${workspaceFolder}/src/Azure.Functions/bin/Debug/net8.0/Azure.Functions.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Azure.Functions",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bhttps?://\\S+",
-                "uriFormat": "%s"
-            },
-            "env": {
-                "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-                "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-                "AZURE_FUNCTIONS_ENVIRONMENT": "Development"
-            }
+            "request": "attach",
+            "processId": "${command:azureFunctions.pickProcess}"
         }
     ],
     "compounds": [
         {
             "name": "Launch Blazor and Functions",
-            "configurations": ["Launch Blazor WebAssembly", "Launch Azure Functions"]
+            "configurations": ["Launch Blazor WebAssembly", "Attach to .NET Functions"]
         }
     ]
 }
