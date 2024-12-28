@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/AspNet.Core.sln",
+                "${workspaceFolder}/src/Web.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/AspNet.Core.sln",
+                "${workspaceFolder}/src/Web.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/src/AspNet.Core.sln"
+                "${workspaceFolder}/src/Web.sln"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -107,11 +107,30 @@
             "type": "func",
             "dependsOn": "build (functions)",
             "options": {
-                "cwd": "${workspaceFolder}/src\\Azure.Function/bin/Debug/net9.0"
+                "cwd": "${workspaceFolder}/src\\Azure.Function/bin/Debug/net8.0"
             },
             "command": "host start",
             "isBackground": true,
             "problemMatcher": "$func-dotnet-watch"
+        },
+        {
+            "label": "func: host start",
+            "type": "shell",
+            "command": "func start",
+            "isBackground": true,
+            "problemMatcher": "$func-dotnet-watch",
+            "options": {
+                "cwd": "${workspaceFolder}/src/Azure.Function"
+            }
+        },
+        {
+            "label": "build (functions)",
+            "type": "dotnet",
+            "command": "build",
+            "args": [
+                "${workspaceFolder}/src/Azure.Function/Azure.Function.csproj"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }
