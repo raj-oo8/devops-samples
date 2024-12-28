@@ -3,6 +3,7 @@ param hostingPlanLocation string
 param functionAppName string
 param functionAppLocation string
 param storageAccountConnectionString string
+param signalRConnectionString string
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: hostingPlanName
@@ -27,6 +28,10 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: storageAccountConnectionString
         }
         {
+          name: 'AzureSignalRConnectionString'
+          value: signalRConnectionString
+        }
+        {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
@@ -39,6 +44,11 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: 'dotnet'
         }
       ]
+      cors: {
+        allowedOrigins: [
+          '*'
+        ]
+      }
     }
   }
 }
