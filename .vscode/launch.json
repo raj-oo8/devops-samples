@@ -14,10 +14,10 @@
             "name": "Launch Azure Functions",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "func: host start",
-            "program": "${workspaceFolder}/src/Azure.Function/bin/Debug/net8.0/Azure.Function.dll",
+            "preLaunchTask": "start func host",
+            "program": "${workspaceFolder}/src/Azure.Functions/bin/Debug/net8.0/Azure.Functions.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Azure.Function",
+            "cwd": "${workspaceFolder}/src/Azure.Functions",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -26,7 +26,8 @@
             },
             "env": {
                 "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-                "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+                "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+                "AZURE_FUNCTIONS_ENVIRONMENT": "Development"
             }
         }
     ],

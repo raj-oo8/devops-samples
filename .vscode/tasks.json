@@ -3,134 +3,41 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
             "type": "process",
+            "command": "dotnet",
             "args": [
                 "build",
-                "${workspaceFolder}/src/Web.sln",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/src/Web.sln",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
                 "${workspaceFolder}/src/Web.sln"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "clean (functions)",
-            "command": "dotnet",
-            "args": [
-                "clean",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
+            "label": "publish",
             "type": "process",
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/src\\Azure.Function"
-            }
-        },
-        {
-            "label": "build (functions)",
-            "command": "dotnet",
-            "args": [
-                "build",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "type": "process",
-            "dependsOn": "clean (functions)",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/src\\Azure.Function"
-            }
-        },
-        {
-            "label": "clean release (functions)",
-            "command": "dotnet",
-            "args": [
-                "clean",
-                "--configuration",
-                "Release",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "type": "process",
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/src\\Azure.Function"
-            }
-        },
-        {
-            "label": "publish (functions)",
             "command": "dotnet",
             "args": [
                 "publish",
-                "--configuration",
-                "Release",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "${workspaceFolder}/src/Web.sln"
             ],
-            "type": "process",
-            "dependsOn": "clean release (functions)",
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/src\\Azure.Function"
-            }
+            "problemMatcher": "$msCompile"
         },
         {
-            "type": "func",
-            "dependsOn": "build (functions)",
-            "options": {
-                "cwd": "${workspaceFolder}/src\\Azure.Function/bin/Debug/net8.0"
-            },
-            "command": "host start",
-            "isBackground": true,
-            "problemMatcher": "$func-dotnet-watch"
-        },
-        {
-            "label": "func: host start",
+            "label": "start func host",
             "type": "shell",
             "command": "func start",
             "isBackground": true,
             "problemMatcher": "$func-dotnet-watch",
             "options": {
-                "cwd": "${workspaceFolder}/src/Azure.Function"
+                "cwd": "${workspaceFolder}/src/Azure.Functions"
             }
         },
         {
-            "label": "build (functions)",
-            "type": "dotnet",
-            "command": "build",
+            "label": "watch",
+            "type": "process",
+            "command": "dotnet",
             "args": [
-                "${workspaceFolder}/src/Azure.Function/Azure.Function.csproj"
-            ],
-            "problemMatcher": "$msCompile"
+                "watch"
+            ]
         }
     ]
 }
