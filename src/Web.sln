@@ -5,13 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.WebAssembly", "Blazor.WebAssembly\Blazor.WebAssembly.csproj", "{09D305EB-4B87-446E-95D1-E3996522DAD4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure as Code", "Infrastructure as Code", "{6730CE33-313B-4258-B4DE-4878AA8792DB}"
-	ProjectSection(SolutionItems) = preProject
-		..\infra\azuredeploy.bicep = ..\infra\azuredeploy.bicep
-		..\infra\azuredeploy.json = ..\infra\azuredeploy.json
-		..\infra\azuredeploy.tf = ..\infra\azuredeploy.tf
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Functions", "Azure.Functions\Azure.Functions.csproj", "{41453017-19ED-43EF-88AC-6608787F7ED2}"
 EndProject
 Global
