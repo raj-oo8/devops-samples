@@ -8,7 +8,7 @@ namespace Azure.Functions
 {
     public static class SignalRFunctions
     {
-        private static int Counter = 0;
+        private static int counter = 0;
 
         [FunctionName("negotiate")]
         public static SignalRConnectionInfo Negotiate(
@@ -22,14 +22,22 @@ namespace Azure.Functions
         public static async Task Broadcast([TimerTrigger("*/5 * * * * *")] TimerInfo myTimer,
         [SignalR(HubName = "serverless")] IAsyncCollector<SignalRMessage> signalRMessages)
         {
-            Counter++; // Increment the counter
+            counter++;
 
             await signalRMessages.AddAsync(
                 new SignalRMessage
                 {
-                    Target = "ReceiveCount",
-                    Arguments = new object[] { Counter }
+                    Target = "ReceiveCounter",
+                    Arguments = [counter]
                 });
+        }
+
+        [FunctionName("update")]
+        public static void Update(
+        [SignalRTrigger(hubName: "serverless", category: "messages", @event: "Update")] InvocationContext invocationContext)
+        {
+            var newCounterValue = (int)invocationContext.Arguments[0];
+            counter = newCounterValue;
         }
     }
 }

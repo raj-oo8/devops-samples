@@ -5,11 +5,11 @@
 
 <PageTitle>Counter</PageTitle>
 <h1>Counter</h1>
-<p role="status">Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge></p>
+<p role="status">Current count: <FluentBadge Appearance="Appearance.Neutral">@counter</FluentBadge></p>
 <FluentButton Appearance="Appearance.Accent" @onclick="IncrementCount">Click me</FluentButton>
 
 @code {
-    private int currentCount = 0;
+    private int counter = 0;
     private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
@@ -27,9 +27,9 @@
                 .WithUrl(negotiateUrl)
                 .Build();
 
-            hubConnection.On<int>("ReceiveCount", (count) =>
+            hubConnection.On<int>("ReceiveCounter", (count) =>
             {
-                currentCount = count;
+                counter = count;
                 InvokeAsync(StateHasChanged);
             });
 
@@ -42,9 +42,14 @@
         }
     }
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
-        currentCount++; // Increment the counter manually
+        counter++; // Increment the counter manually
+
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("Update", counter);
+        }
     }
 
     public async ValueTask DisposeAsync()
