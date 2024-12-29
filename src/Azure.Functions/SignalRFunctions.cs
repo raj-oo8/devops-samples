@@ -12,7 +12,7 @@ namespace Azure.Functions
 
         [FunctionName("negotiate")]
         public static SignalRConnectionInfo Negotiate(
-            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             [SignalRConnectionInfo(HubName = "serverless")] SignalRConnectionInfo connectionInfo)
         {
             return connectionInfo;
