@@ -11,3 +11,5 @@ resource staticSite 'Microsoft.Web/staticSites@2024-04-01' = {
   properties: {
   }
 }
+
+output staticSiteEndpoint string = staticSite.properties.defaultHostname

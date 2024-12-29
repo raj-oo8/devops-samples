@@ -18,4 +18,6 @@ resource signalR 'Microsoft.SignalRService/signalR@2024-10-01-preview' = {
   }
 }
 
+output signalRConnectionString string = listKeys(signalR.id, signalR.apiVersion).primaryConnectionString
+
 

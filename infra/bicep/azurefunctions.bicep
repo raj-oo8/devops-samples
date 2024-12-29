@@ -4,6 +4,7 @@ param functionAppName string
 param functionAppLocation string
 param storageAccountConnectionString string
 param signalRConnectionString string
+param staticSiteEndpoint string
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: hostingPlanName
@@ -46,9 +47,11 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       ]
       cors: {
         allowedOrigins: [
-          '*'
+          staticSiteEndpoint
         ]
       }
     }
   }
 }
+
+output functionAppEndpoint string = functionApp.properties.defaultHostName
