@@ -2,8 +2,8 @@ var subscriptionId = subscription().subscriptionId
 var uniqueSuffix = substring(subscriptionId, length(subscriptionId) - 12, 12)
 var resourceGroupName = 'group-${uniqueSuffix}'
 
-module createResourceGroup 'azureresourcegroup.bicep' = {
-  name: 'createResourceGroup'
+module resourceGroupModule 'azureresourcegroup.bicep' = {
+  name: 'resourceGroupDeployment'
   scope: subscription()
   params: {
     resourceGroupName: resourceGroupName
