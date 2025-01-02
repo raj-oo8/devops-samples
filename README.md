@@ -9,6 +9,7 @@ This repository contains sample projects covering various topics to demonstrate 
 - Terraform
 - Azure Resource Manager (ARM)
 - Bicep
+- Azure CLI
 
 ### Web Development
 
@@ -16,20 +17,15 @@ This repository contains sample projects covering various topics to demonstrate 
 - Progressive Web App
 - Blazor WebAssembly
 - Azure Static Web App
+- Azure SignalR
+- Web Push
 
 ### Pipelines
 
 - GitHub Actions
-- Azure CLI
-
-### Security
-
 - GitHub Advanced Security
 
-### Notifications and Messaging
-
-- Web Push
-
-### GitHub Ecosystem
+### Integrated Development Environments
 
 - GitHub Copilot
+- Visual Studio Code
