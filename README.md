@@ -29,3 +29,4 @@ This repository contains sample projects covering various topics to demonstrate 
 
 - GitHub Copilot
 - Visual Studio Code
+- Visual Studio
