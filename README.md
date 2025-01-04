@@ -24,9 +24,3 @@ This repository contains sample projects covering various topics to demonstrate 
 
 - GitHub Actions
 - GitHub Advanced Security
-
-### Integrated Development Environments
-
-- GitHub Copilot
-- Visual Studio Code
-- Visual Studio
