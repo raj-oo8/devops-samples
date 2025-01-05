@@ -4,7 +4,7 @@ var resourceGroupName = 'group-${uniqueSuffix}'
 
 module resourceGroupModule 'azureresourcegroup.bicep' = {
   name: 'resourceGroupDeployment'
-  scope: subscription()
+  scope: subscription(subscriptionId)
   params: {
     resourceGroupName: resourceGroupName
     resourceGroupLocation: 'southeastasia'
