@@ -26,8 +26,8 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Create or Update Resource Group
-      - name: Create or Update Resource Group
+      # Ensure the resource group exists
+      - name: Create Resource Group
         run: |
           az group create --name ${{ vars.RESOURCE_GROUP_NAME }} --location ${{ vars.RESOURCE_LOCATION }}
 
@@ -40,6 +40,7 @@ jobs:
           resourceGroupName: ${{ vars.RESOURCE_GROUP_NAME }}
           template: ./infra/bicep/main.bicep
           deploymentMode: Incremental
+          parameters: staticSites_name=${{ vars.STATIC_WEB_APP_NAME }}
 
       # Deploy to Azure Functions
       - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
@@ -60,14 +61,21 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ steps.bicep.outputs.functionAppPublishProfile }}
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
       
+      # Get Azure Static Web App deployment token
+      - name: Get Azure Static Web App deployment token
+        id: get-token
+        run: |
+          TOKEN=$(az staticwebapp secrets list --name ${{ vars.STATIC_WEB_APP_NAME }} --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --query "properties.apiKey" -o tsv)
+          echo "STATIC_WEB_APP_TOKEN=$TOKEN" >> $GITHUB_ENV
+
       # Deploy to Azure Static Web Apps
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ steps.bicep.outputs.staticSiteDeploymentToken }}
+          azure_static_web_apps_api_token: ${{ env.STATIC_WEB_APP_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
           app_location: '/src/Blazor.WebAssembly'

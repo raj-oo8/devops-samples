@@ -1,15 +1,6 @@
+param staticSiteName string
 var subscriptionId = subscription().subscriptionId
 var uniqueSuffix = substring(subscriptionId, length(subscriptionId) - 12, 12)
-var resourceGroupName = 'group-${uniqueSuffix}'
-
-module resourceGroupModule 'azureresourcegroup.bicep' = {
-  name: 'resourceGroupDeployment'
-  scope: subscription(subscriptionId)
-  params: {
-    resourceGroupName: resourceGroupName
-    resourceGroupLocation: 'southeastasia'
-  }
-}
 
 module signalRModule 'azuresignalr.bicep' = {
   name: 'signalRDeployment'
