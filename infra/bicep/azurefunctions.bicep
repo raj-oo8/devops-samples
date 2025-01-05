@@ -55,3 +55,4 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
 }
 
 output functionAppEndpoint string = functionApp.properties.defaultHostName
+output functionAppPublishProfile string = listPublishingCredentials(functionApp.id, '2024-04-01').properties.publishProfile
