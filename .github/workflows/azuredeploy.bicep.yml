@@ -26,6 +26,11 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Create or Update Resource Group
+      - name: Create or Update Resource Group
+        run: |
+          az group create --name ${{ vars.RESOURCE_GROUP_NAME }} --location ${{ vars.RESOURCE_LOCATION }}
+
       # Deploy Bicep template
       - name: Deploy Bicep Template
         id: bicep
