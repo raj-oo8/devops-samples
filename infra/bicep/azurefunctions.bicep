@@ -2,9 +2,9 @@ param hostingPlanName string
 param hostingPlanLocation string
 param functionAppName string
 param functionAppLocation string
-param storageAccountConnectionString string
-param signalRConnectionString string
 param staticSiteEndpoint string
+param storageAccountName string
+param signalRName string
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: hostingPlanName
@@ -14,6 +14,14 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
     tier: 'Dynamic'
   }
   properties: {}
+}
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
+  name: storageAccountName
+}
+
+resource signalR 'Microsoft.SignalRService/signalR@2024-10-01-preview' existing = {
+  name: signalRName
 }
 
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
@@ -26,11 +34,11 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: storageAccountConnectionString
+          value: storageAccount.listKeys().keys[0].value      
         }
         {
           name: 'AzureSignalRConnectionString'
-          value: signalRConnectionString
+          value: signalR.listKeys().primaryConnectionString
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
@@ -55,3 +63,4 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
 }
 
 output functionAppEndpoint string = functionApp.properties.defaultHostName
+output functionAppName string = functionApp.name

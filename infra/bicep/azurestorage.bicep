@@ -11,4 +11,4 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-output storageAccountConnectionString string = listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value
+output storageAccountName string = storageAccount.name

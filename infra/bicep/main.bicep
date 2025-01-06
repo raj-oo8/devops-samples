@@ -2,9 +2,16 @@ param staticSiteName string
 var subscriptionId = subscription().subscriptionId
 var uniqueSuffix = substring(subscriptionId, length(subscriptionId) - 12, 12)
 
+targetScope='subscription'
+
+resource newResourceGroup 'Microsoft.Resources/resourceGroups@2024-07-01' = {
+  name: 'group-${uniqueSuffix}'
+  location: 'southeastasia'
+}
+
 module signalRModule 'azuresignalr.bicep' = {
   name: 'signalRDeployment'
-  scope: resourceGroup(resourceGroupName)
+  scope: newResourceGroup
   params: {
     signalRName: 'signalr-${uniqueSuffix}'
     signalRLocation: 'southeastasia'
@@ -14,7 +21,7 @@ module signalRModule 'azuresignalr.bicep' = {
 
 module storageModule 'azurestorage.bicep' = {
   name: 'storageDeployment'
-  scope: resourceGroup(resourceGroupName)
+  scope: newResourceGroup
   params: {
     storageAccountName: 'storage${uniqueSuffix}'
     storageLocationName: 'southeastasia'
@@ -24,9 +31,9 @@ module storageModule 'azurestorage.bicep' = {
 
 module staticWebAppModule 'azurestaticwebapps.bicep' = {
   name: 'staticWebAppDeployment'
-  scope: resourceGroup(resourceGroupName)
+  scope: newResourceGroup
   params: {
-    staticSiteName: 'staticsite-${uniqueSuffix}'
+    staticSiteName: staticSiteName
     staticSiteLocation: 'southeastasia'
     staticSiteSku: 'Free'
   }
@@ -34,14 +41,14 @@ module staticWebAppModule 'azurestaticwebapps.bicep' = {
 
 module functionAppModule 'azurefunctions.bicep' = {
   name: 'functionAppDeployment'
-  scope: resourceGroup(resourceGroupName)
+  scope: newResourceGroup
   params: {
     functionAppName: 'function-${uniqueSuffix}'
     functionAppLocation: 'southeastasia'
     hostingPlanName: 'functionhosting-${uniqueSuffix}'
     hostingPlanLocation: 'southeastasia'
-    storageAccountConnectionString: storageModule.outputs.storageAccountConnectionString
-    signalRConnectionString: signalRModule.outputs.signalRConnectionString
     staticSiteEndpoint: staticWebAppModule.outputs.staticSiteEndpoint
+    storageAccountName: storageModule.outputs.storageAccountName
+    signalRName: signalRModule.outputs.signalRName
   }
 }

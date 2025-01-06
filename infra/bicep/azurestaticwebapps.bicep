@@ -8,9 +8,8 @@ resource staticSite 'Microsoft.Web/staticSites@2024-04-01' = {
   sku: {
     name: staticSiteSku
   }
-  properties: {
-  }
+  properties: {}
 }
 
 output staticSiteEndpoint string = staticSite.properties.defaultHostname
-output staticSiteDeploymentToken string = listSecrets(staticSite.id, staticSite.apiVersion).properties.apiKey
+output staticSiteName string = staticSite.name

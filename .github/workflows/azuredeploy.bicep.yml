@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOTNET_VERSION: '8.0'
-      AZURE_FUNCTIONAPP_NAME: 'SignalRFunctions'
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
 
     steps:
@@ -26,11 +25,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Ensure the resource group exists
-      - name: Create Resource Group
-        run: |
-          az group create --name ${{ vars.RESOURCE_GROUP_NAME }} --location ${{ vars.RESOURCE_LOCATION }}
-
       # Deploy Bicep template
       - name: Deploy Bicep Template
         id: bicep
@@ -39,9 +33,15 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ vars.RESOURCE_GROUP_NAME }}
           template: ./infra/bicep/main.bicep
-          deploymentMode: Incremental
-          parameters: staticSites_name=${{ vars.STATIC_WEB_APP_NAME }}
+          deploymentMode: complete
 
+      # Get the output params of the Bicep deployment
+      - name: Get Output Parameters
+        id: get-output-params
+        run: |
+          echo "STATIC_WEB_APP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.staticSiteName')" >> $GITHUB_ENV
+          echo "AZURE_FUNCTIONAPP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.functionAppName')" >> $GITHUB_ENV
+      
       # Deploy to Azure Functions
       - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
         uses: actions/setup-dotnet@v4
@@ -55,13 +55,19 @@ jobs:
           dotnet build --configuration Release --output ./output
           popd
 
+      # Get Azure Functions Publish Profile
+      - name: Get Azure Functions Publish Profile
+        id: get-publish-profile
+        run: |
+          echo "AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$(az functionapp deployment list-publishing-profiles --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --query "[?publishMethod=='MSDeploy'].{publishUrl:publishUrl,userName:userName,userPWD:userPWD}" -o tsv)" >> $GITHUB_ENV
+
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ env.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
       
       # Get Azure Static Web App deployment token
       - name: Get Azure Static Web App deployment token
