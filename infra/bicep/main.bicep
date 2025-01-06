@@ -32,7 +32,7 @@ module staticWebAppModule 'azurestaticwebapps.bicep' = {
   name: 'staticWebAppDeployment'
   scope: newResourceGroup
   params: {
-    staticSiteName: staticSiteName
+    staticSiteName: 'singlepageapp-${uniqueSuffix}'
     staticSiteLocation: 'southeastasia'
     staticSiteSku: 'Free'
   }
