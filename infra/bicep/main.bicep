@@ -1,4 +1,3 @@
-param staticSiteName string
 var subscriptionId = subscription().subscriptionId
 var uniqueSuffix = substring(subscriptionId, length(subscriptionId) - 12, 12)
 

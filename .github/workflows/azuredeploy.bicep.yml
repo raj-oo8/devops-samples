@@ -35,7 +35,7 @@ jobs:
           scope: subscription
           region: ${{ vars.RESOURCE_LOCATION }}
           template: ./infra/bicep/main.bicep
-          deploymentMode: complete
+          deploymentMode: incremental
 
       # Get the output params of the Bicep deployment
       - name: Get Output Parameters
