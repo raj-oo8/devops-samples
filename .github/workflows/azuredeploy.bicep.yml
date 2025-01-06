@@ -32,6 +32,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ vars.RESOURCE_GROUP_NAME }}
+          scope: subscription
           template: ./infra/bicep/main.bicep
           deploymentMode: complete
 
