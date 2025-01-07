@@ -12,8 +12,12 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
+    size: 'Y1'
+    family: 'Y'
   }
-  properties: {}
+  properties: {
+    reserved: true
+  }
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
@@ -45,6 +49,10 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
+        }
+        {
+          name: 'WEBSITE_CONTENTSHARE'
+          value: toLower(functionAppName)
         }
         {
           name: 'FUNCTIONS_INPROC_NET8_ENABLED'
