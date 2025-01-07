@@ -69,7 +69,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       ]
       cors: {
         allowedOrigins: [
-          staticSiteEndpoint
+          'https://${staticSiteEndpoint}'
         ]
       }
       numberOfWorkers: 1
