@@ -2,7 +2,7 @@ param signalRName string
 param signalRLocation string
 param signalRSku string
 
-resource signalR 'Microsoft.SignalRService/signalR@2024-10-01-preview' = {
+resource signalR 'Microsoft.SignalRService/signalR@2024-08-01-preview' = {
   name: signalRName
   location: signalRLocation
   sku: {
