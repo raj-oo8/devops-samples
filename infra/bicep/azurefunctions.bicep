@@ -20,7 +20,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' existing 
   name: storageAccountName
 }
 
-resource signalR 'Microsoft.SignalRService/signalR@2024-10-01-preview' existing = {
+resource signalR 'Microsoft.SignalRService/signalR@2024-08-01-preview' existing = {
   name: signalRName
 }
 
