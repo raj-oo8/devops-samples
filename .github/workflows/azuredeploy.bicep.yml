@@ -39,6 +39,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           scope: subscription
+          region: ${{ vars.RESOURCE_LOCATION }}
           template: ./infra/bicep/main.bicep
           failOnStdErr: true
 
