@@ -97,7 +97,9 @@ jobs:
       - name: Update appsettings.json
         run: |
           jq --arg endpoint "https://${{ env.AZURE_FUNCTIONAPP_ENDPOINT }}/api" '.SignalR.Url = $endpoint' src/Blazor.WebAssembly/wwwroot/appsettings.json > tmp.$$.json && mv tmp.$$.json src/Blazor.WebAssembly/wwwroot/appsettings.json
-          run: cat src/Blazor.WebAssembly/wwwroot/appsettings.json
+      
+      - name: Display updated appsettings.json
+        run: cat src/Blazor.WebAssembly/wwwroot/appsettings.json
 
       # Deploy to Azure Static Web Apps
       - name: Setup DotNet 9.0 Environment
