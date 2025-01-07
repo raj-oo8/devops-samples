@@ -60,6 +60,9 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           staticSiteEndpoint
         ]
       }
+      numberOfWorkers: 1
+      acrUseManagedIdentityCreds: false
+      alwaysOn: false
       http20Enabled: true
       netFrameworkVersion: 'v8.0'
       remoteDebuggingEnabled: true
