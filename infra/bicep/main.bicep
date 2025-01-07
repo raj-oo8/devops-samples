@@ -9,8 +9,6 @@ resource newResourceGroup 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   location: location
 }
 
-output newResourceGroupName string = newResourceGroup.name
-
 module signalRModule 'azuresignalr.bicep' = {
   name: 'signalRDeployment'
   scope: newResourceGroup
@@ -54,3 +52,7 @@ module functionAppModule 'azurefunctions.bicep' = {
     signalRName: signalRModule.outputs.signalRName
   }
 }
+
+output newResourceGroupName string = newResourceGroup.name
+output staticSiteName string = staticWebAppModule.outputs.staticSiteName
+output functionAppName string = functionAppModule.outputs.functionAppName
