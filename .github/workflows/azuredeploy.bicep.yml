@@ -107,6 +107,10 @@ jobs:
         with:
           dotnet-version: 9.0
 
+      # Build and publish the project
+      - name: Build and publish the project
+        run: dotnet publish src/Blazor.WebAssembly -c Release -o ./publish
+
       # Verify the contents of the publish directory
       - name: Verify publish directory contents
         run: ls -R ./publish
@@ -118,9 +122,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ env.STATIC_WEB_APP_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
-          app_location: '/src/Blazor.WebAssembly'
-          output_location: 'wwwroot'
-          app_build_command: 'dotnet publish -c Release -o ./publish'
+          app_location: './src/Blazor.WebAssembly'
+          output_location: './publish'
+          app_build_command: 'dotnet publish src/Blazor.WebAssembly -c Release -o ./publish'
 
       # Logout of Azure
       - name: Logout of Azure
