@@ -90,7 +90,7 @@ jobs:
       - name: Get Azure Static Web App deployment token
         id: get-token
         run: |
-          TOKEN=$(az staticwebapp secrets list --name ${{ vars.STATIC_WEB_APP_NAME }} --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --query "properties.apiKey" -o tsv)
+          TOKEN=$(az staticwebapp secrets list --name ${{ env.STATIC_WEB_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "properties.apiKey" -o tsv)
           echo "STATIC_WEB_APP_TOKEN=$TOKEN" >> $GITHUB_ENV
 
       # Deploy to Azure Static Web Apps
