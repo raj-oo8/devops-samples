@@ -1,11 +1,12 @@
 var subscriptionId = subscription().subscriptionId
 var uniqueSuffix = substring(subscriptionId, length(subscriptionId) - 12, 12)
+var location = 'eastasia'
 
 targetScope='subscription'
 
 resource newResourceGroup 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   name: 'group-${uniqueSuffix}'
-  location: 'southeastasia'
+  location: location
 }
 
 module signalRModule 'azuresignalr.bicep' = {
@@ -13,7 +14,7 @@ module signalRModule 'azuresignalr.bicep' = {
   scope: newResourceGroup
   params: {
     signalRName: 'signalr-${uniqueSuffix}'
-    signalRLocation: 'southeastasia'
+    signalRLocation: location
     signalRSku: 'Free_F1'
   }
 }
@@ -23,7 +24,7 @@ module storageModule 'azurestorage.bicep' = {
   scope: newResourceGroup
   params: {
     storageAccountName: 'storage${uniqueSuffix}'
-    storageLocationName: 'southeastasia'
+    storageLocationName: location
     storageSkuName: 'Standard_LRS'
   }
 }
@@ -33,7 +34,7 @@ module staticWebAppModule 'azurestaticwebapps.bicep' = {
   scope: newResourceGroup
   params: {
     staticSiteName: 'singlepageapp-${uniqueSuffix}'
-    staticSiteLocation: 'southeastasia'
+    staticSiteLocation: location
     staticSiteSku: 'Free'
   }
 }
@@ -43,9 +44,9 @@ module functionAppModule 'azurefunctions.bicep' = {
   scope: newResourceGroup
   params: {
     functionAppName: 'function-${uniqueSuffix}'
-    functionAppLocation: 'southeastasia'
+    functionAppLocation: location
     hostingPlanName: 'functionhosting-${uniqueSuffix}'
-    hostingPlanLocation: 'southeastasia'
+    hostingPlanLocation: location
     staticSiteEndpoint: staticWebAppModule.outputs.staticSiteEndpoint
     storageAccountName: storageModule.outputs.storageAccountName
     signalRName: signalRModule.outputs.signalRName
