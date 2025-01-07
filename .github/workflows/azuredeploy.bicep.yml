@@ -53,9 +53,9 @@ jobs:
       - name: Get Output Parameters
         id: get-output-params
         run: |
-          echo "STATIC_WEB_APP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.staticSiteName')" >> $GITHUB_ENV
-          echo "AZURE_FUNCTIONAPP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.functionAppName')" >> $GITHUB_ENV
-          echo "RESOURCE_GROUP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.newResourceGroupName')" >> $GITHUB_ENV
+          echo "STATIC_WEB_APP_NAME=${{ steps.bicep.outputs.staticSiteName }}" >> $GITHUB_ENV
+          echo "AZURE_FUNCTIONAPP_NAME=${{ steps.bicep.outputs.functionAppName }}" >> $GITHUB_ENV
+          echo "RESOURCE_GROUP_NAME=${{ steps.bicep.outputs.newResourceGroupName }}" >> $GITHUB_ENV
       
       # Deploy to Azure Functions
       - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
