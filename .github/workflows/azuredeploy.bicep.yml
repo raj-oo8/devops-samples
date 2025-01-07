@@ -118,6 +118,10 @@ jobs:
           output_location: 'wwwroot'
           app_build_command: 'dotnet publish src/Blazor.WebAssembly -c Release -o src/Blazor.WebAssembly/wwwroot'
 
+      # Verify the contents of the publish directory
+      - name: Verify publish directory contents
+        run: ls -R src/Blazor.WebAssembly/wwwroot
+
       # Logout of Azure
       - name: Logout of Azure
         run: |
