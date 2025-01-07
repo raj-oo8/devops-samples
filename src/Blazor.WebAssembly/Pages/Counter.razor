@@ -44,12 +44,21 @@
 
     private async Task IncrementCount()
     {
-        counter++; // Increment the counter manually
+        counter++;
 
-        if (hubConnection is not null)
+        if (hubConnection != null && hubConnection.State == HubConnectionState.Connected)
         {
-            await hubConnection.SendAsync("Update", counter);
+            try
+            {
+                await hubConnection.SendAsync("SendCounter", counter);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                Console.Error.WriteLine($"Error sending counter value: {ex.Message}");
+            }
         }
+        StateHasChanged();
     }
 
     public async ValueTask DisposeAsync()
