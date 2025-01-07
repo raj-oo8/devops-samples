@@ -34,7 +34,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: storageAccount.listKeys().keys[0].value      
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
         }
         {
           name: 'AzureSignalRConnectionString'
@@ -58,7 +58,14 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           staticSiteEndpoint
         ]
       }
+      http20Enabled: true
+      netFrameworkVersion: 'v8.0'
+      remoteDebuggingEnabled: true
+      remoteDebuggingVersion: 'VS2022'
+      webSocketsEnabled: true
+      use32BitWorkerProcess: false
     }
+    httpsOnly: true
   }
 }
 

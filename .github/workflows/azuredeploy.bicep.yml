@@ -35,7 +35,7 @@ jobs:
       # Generate a new GUID
       - name: Generate New GUID
         id: generate-guid
-        run: echo "##[set-output name=guid;]$(uuidgen)"
+        run: echo "guid=$(uuidgen)" >> $GITHUB_ENV
 
       # Deploy Bicep template
       - name: Deploy Bicep Template
@@ -47,7 +47,7 @@ jobs:
           region: ${{ vars.RESOURCE_LOCATION }}
           template: ./infra/bicep/main.bicep
           failOnStdErr: true
-          deploymentName: 'bicep-deployment-${{ steps.generate-guid.outputs.guid }}'
+          deploymentName: 'bicep-deployment-${{ env.guid }}'
 
       # Get the output params of the Bicep deployment
       - name: Get Output Parameters
@@ -55,6 +55,7 @@ jobs:
         run: |
           echo "STATIC_WEB_APP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.staticSiteName')" >> $GITHUB_ENV
           echo "AZURE_FUNCTIONAPP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.functionAppName')" >> $GITHUB_ENV
+          echo "RESOURCE_GROUP_NAME=$(echo '${{ steps.bicep.outputs }}' | jq -r '.newResourceGroupName')" >> $GITHUB_ENV
       
       # Deploy to Azure Functions
       - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
@@ -74,7 +75,8 @@ jobs:
       - name: Get Azure Functions Publish Profile
         id: get-publish-profile
         run: |
-          echo "AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$(az functionapp deployment list-publishing-profiles --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --query "[?publishMethod=='MSDeploy'].{publishUrl:publishUrl,userName:userName,userPWD:userPWD}" -o tsv)" >> $GITHUB_ENV
+          AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$(az functionapp deployment list-publishing-profiles --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "[?publishMethod=='MSDeploy'].{publishUrl:publishUrl,userName:userName,userPWD:userPWD}" -o tsv)
+          echo "AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$AZURE_FUNCTIONAPP_PUBLISH_PROFILE" >> $GITHUB_ENV
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
