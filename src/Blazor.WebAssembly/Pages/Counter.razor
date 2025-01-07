@@ -18,27 +18,24 @@
         {
             var negotiateUrl = Configuration["SignalR:Url"];
 
-            if (string.IsNullOrEmpty(negotiateUrl))
+            if (!string.IsNullOrEmpty(negotiateUrl))
             {
-                throw new InvalidOperationException("SignalR negotiate URL is not configured.");
-            }
-
-            hubConnection = new HubConnectionBuilder()
+                hubConnection = new HubConnectionBuilder()
                 .WithUrl(negotiateUrl)
                 .Build();
 
-            hubConnection.On<int>("ReceiveCounter", (count) =>
-            {
-                counter = count;
-                InvokeAsync(StateHasChanged);
-            });
+                hubConnection.On<int>("ReceiveCounter", (count) =>
+                {
+                    counter = count;
+                    InvokeAsync(StateHasChanged);
+                });
 
-            await hubConnection.StartAsync();
+                await hubConnection.StartAsync();
+            }
         }
         catch (Exception ex)
         {
-            // Log the exception or handle it as needed
-            Console.Error.WriteLine($"Error initializing SignalR connection: {ex.Message}");
+            Console.Error.WriteLine(ex.Message);
         }
     }
 
