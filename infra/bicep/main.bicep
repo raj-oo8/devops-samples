@@ -56,3 +56,4 @@ module functionAppModule 'azurefunctions.bicep' = {
 output newResourceGroupName string = newResourceGroup.name
 output staticSiteName string = staticWebAppModule.outputs.staticSiteName
 output functionAppName string = functionAppModule.outputs.functionAppName
+output functionAppEndpoint string = functionAppModule.outputs.functionAppEndpoint
