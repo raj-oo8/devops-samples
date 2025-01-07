@@ -27,9 +27,10 @@ resource signalR 'Microsoft.SignalRService/signalR@2024-08-01-preview' existing 
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
   name: functionAppName
   location: functionAppLocation
-  kind: 'functionapp'
+  kind: 'functionapp, linux'
   properties: {
     serverFarmId: hostingPlan.id
+    reserved: true
     siteConfig: {
       appSettings: [
         {
