@@ -107,6 +107,10 @@ jobs:
         with:
           dotnet-version: 9.0
 
+      # Verify the contents of the publish directory
+      - name: Verify publish directory contents
+        run: ls -R ./publish
+
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
