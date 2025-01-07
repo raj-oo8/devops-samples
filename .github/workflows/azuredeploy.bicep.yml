@@ -75,8 +75,8 @@ jobs:
       - name: Get Azure Functions Publish Profile
         id: get-publish-profile
         run: |
-          AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$(az functionapp deployment list-publishing-profiles --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "[?publishMethod=='MSDeploy'].{publishUrl:publishUrl,userName:userName,userPWD:userPWD}" -o tsv)
-          echo "AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$AZURE_FUNCTIONAPP_PUBLISH_PROFILE" >> $GITHUB_ENV
+          az functionapp deployment list-publishing-profiles --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --xml > publishProfile.xml
+          echo "AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$(cat publishProfile.xml)" >> $GITHUB_ENV
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
