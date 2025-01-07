@@ -32,6 +32,11 @@ jobs:
           az provider register --namespace Microsoft.Storage
           az provider register --namespace Microsoft.Web
 
+      # Generate a new GUID
+      - name: Generate New GUID
+        id: generate-guid
+        run: echo "##[set-output name=guid;]$(uuidgen)"
+
       # Deploy Bicep template
       - name: Deploy Bicep Template
         id: bicep
@@ -42,6 +47,7 @@ jobs:
           region: ${{ vars.RESOURCE_LOCATION }}
           template: ./infra/bicep/main.bicep
           failOnStdErr: true
+          deploymentName: 'bicep-deployment-${{ steps.generate-guid.outputs.guid }}'
 
       # Get the output params of the Bicep deployment
       - name: Get Output Parameters
