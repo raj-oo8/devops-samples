@@ -8,7 +8,6 @@ jobs:
     name: "Provision and Deploy"
     runs-on: ubuntu-latest
     env:
-      DOTNET_VERSION: '8.0'
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
 
     steps:
@@ -58,10 +57,10 @@ jobs:
           echo "RESOURCE_GROUP_NAME=${{ steps.bicep.outputs.newResourceGroupName }}" >> $GITHUB_ENV
       
       # Deploy to Azure Functions
-      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      - name: Setup DotNet 8.0 Environment
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: 8.0
 
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: bash
@@ -94,6 +93,11 @@ jobs:
           echo "STATIC_WEB_APP_TOKEN=$TOKEN" >> $GITHUB_ENV
 
       # Deploy to Azure Static Web Apps
+      - name: Setup DotNet 9.0 Environment
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0
+
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
