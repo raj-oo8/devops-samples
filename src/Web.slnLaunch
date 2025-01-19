@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Web",
+    "Projects": [
+      {
+        "Path": "Blazor.WebAssembly\\Blazor.WebAssembly.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "Azure.Functions\\Azure.Functions.csproj",
+        "Action": "Start",
+        "DebugTarget": "Azure.Functions"
+      }
+    ]
+  }
+]
