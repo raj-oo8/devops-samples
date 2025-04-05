@@ -25,29 +25,19 @@ jobs:
         with:
           dotnet-version: 9.0
 
-      # # Run Tests and Collect Coverage
-      # - name: Run Tests and Collect Coverage
-      #   run: |
-      #     dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage"
+      # Install Coverlet Console
+      - name: Install Coverlet Console
+        run: dotnet tool install --global coverlet.console
 
-      # # Install xmllint
-      # - name: Install xmllint
-      #   run: sudo apt-get install -y libxml2-utils
-
-      # # Check Coverage
-      # - name: Check Coverage
-      #   run: |
-      #     COVERAGE_FILE=$(find . -name 'coverage.cobertura.xml')
-      #     COVERAGE=$(xmllint --xpath "string(//coverage/@line-rate)" $COVERAGE_FILE)
-      #     if (( $(echo "$COVERAGE < 1.0" | bc -l) )); then
-      #       echo "Code coverage is less than 100% ($COVERAGE)"
-      #       exit 1
-      #     fi
+      # Add .NET tools to PATH
+      - name: Add .NET tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=cobertura /p:Threshold=100 /p:ThresholdType=line
+          dotnet build ${{ env.TEST_PROJECT_PATH }}
+          coverlet ${{ env.TEST_PROJECT_PATH }} --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
 
       # Login to Azure
       - name: Login to Azure
