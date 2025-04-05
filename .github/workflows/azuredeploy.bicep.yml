@@ -35,7 +35,9 @@ jobs:
 
       # Build the Test Project
       - name: Build the Test Project
-        run: dotnet build ${{ env.TEST_PROJECT_PATH }} -o ${{ env.BUILD_OUTPUT_PATH }}
+        run: dotnet build ${{ env.TEST_PROJECT_PATH }} -o ./output
+        env:
+            BUILD_OUTPUT_PATH: ./output
 
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
