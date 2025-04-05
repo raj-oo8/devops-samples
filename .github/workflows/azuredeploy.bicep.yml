@@ -33,16 +33,14 @@ jobs:
       - name: Add .NET tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
-      # Build the Test Project and Set TEST_DLL_PATH
+      # Build the Test Project
       - name: Build the Test Project
-        run: |
-          dotnet build ${{ env.TEST_PROJECT_PATH }} -o build_output
-          #echo "TEST_DLL_PATH=$(find build_output -name 'Azure.Functions.Tests.dll')" >> $GITHUB_ENV
+        run: dotnet build ${{ env.TEST_PROJECT_PATH }} -o ${{ env.BUILD_OUTPUT_PATH }}
 
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          coverlet build_output/Azure.Functions.Tests.dll --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
+          coverlet ${{ env.BUILD_OUTPUT_PATH }}/Azure.Functions.Tests.dll --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
 
       # Login to Azure
       - name: Login to Azure
