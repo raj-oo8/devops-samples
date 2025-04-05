@@ -30,6 +30,10 @@ jobs:
         run: |
           dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage"
 
+      # Install xmllint
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
+
       # Check Coverage
       - name: Check Coverage
         run: |
