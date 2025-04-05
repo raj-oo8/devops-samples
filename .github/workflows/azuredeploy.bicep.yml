@@ -27,7 +27,7 @@ jobs:
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          dotnet test --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~Azure.Functions"
+          dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~Azure.Functions"
 
       # Check Coverage
       - name: Check Coverage
