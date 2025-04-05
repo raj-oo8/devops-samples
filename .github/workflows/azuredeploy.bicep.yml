@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
-      TEST_PROJECT_PATH: 'Azure.Functions.Tests/Azure.Functions.Tests.csproj'
+      TEST_PROJECT_PATH: 'src/Azure.Functions.Tests/Azure.Functions.Tests.csproj'
 
     steps:
 
@@ -28,7 +28,7 @@ jobs:
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~Azure.Functions"
+          dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage"
 
       # Check Coverage
       - name: Check Coverage
