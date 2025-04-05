@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bicep", "Bicep", "{62D6D839
 		..\infra\bicep\main.bicep = ..\infra\bicep\main.bicep
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{35EF3588-0679-4AC5-94AE-08BEBCD50495}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Functions.Tests", "Azure.Functions.Tests\Azure.Functions.Tests.csproj", "{1FFFDCC7-42C6-4F6E-A456-341EAAC7D20D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,12 +38,19 @@ Global
 		{41453017-19ED-43EF-88AC-6608787F7ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41453017-19ED-43EF-88AC-6608787F7ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41453017-19ED-43EF-88AC-6608787F7ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFFDCC7-42C6-4F6E-A456-341EAAC7D20D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFFDCC7-42C6-4F6E-A456-341EAAC7D20D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFFDCC7-42C6-4F6E-A456-341EAAC7D20D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFFDCC7-42C6-4F6E-A456-341EAAC7D20D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{09D305EB-4B87-446E-95D1-E3996522DAD4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{41453017-19ED-43EF-88AC-6608787F7ED2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{62D6D839-508B-4BCB-81EF-4B249A6AED0A} = {769C0D9A-4CE9-4390-94B2-C2546227B4AD}
+		{1FFFDCC7-42C6-4F6E-A456-341EAAC7D20D} = {35EF3588-0679-4AC5-94AE-08BEBCD50495}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB4B6C07-F1F9-4A70-A65C-26B1A3EFFCFE}
