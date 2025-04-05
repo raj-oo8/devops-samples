@@ -44,19 +44,10 @@ jobs:
       #       exit 1
       #     fi
 
-      # Install Coverlet
-      - name: Install Coverlet
-        run: dotnet tool install --global coverlet.console
-
-      # Add .NET tools to PATH
-      - name: Add .NET tools to PATH
-        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage"
-          coverlet ${{ env.TEST_PROJECT_PATH }} --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
+          dotnet test ${{ env.TEST_PROJECT_PATH }} --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=cobertura /p:Threshold=100 /p:ThresholdType=line
 
       # Login to Azure
       - name: Login to Azure
