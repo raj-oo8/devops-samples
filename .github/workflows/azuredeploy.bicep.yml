@@ -42,7 +42,9 @@ jobs:
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          coverlet ${{ env.BUILD_OUTPUT_PATH }}/Azure.Functions.Tests.dll --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
+            coverlet ${{ env.BUILD_OUTPUT_PATH }}/Azure.Functions.Tests.dll --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
+        env:
+            BUILD_OUTPUT_PATH: ./output
 
       # Login to Azure
       - name: Login to Azure
