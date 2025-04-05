@@ -10,6 +10,9 @@ jobs:
     env:
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
       TEST_PROJECT_PATH: 'src/Azure.Functions.Tests/Azure.Functions.Tests.csproj'
+      TEST_ASSEMBLY_PATH: 'src/Azure.Functions.Tests/bin/Debug/net9.0/Azure.Functions.Tests.dll'
+      BICEP_TEMPLATE_PATH: './infra/bicep/main.bicep'
+      BLAZOR_APP_PATH: 'src/Blazor.WebAssembly'
 
     steps:
 
@@ -40,8 +43,7 @@ jobs:
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-            coverlet src/Azure.Functions.Tests/bin/Debug/net9.0/Azure.Functions.Tests.dll --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build --configuration Debug" --format cobertura --threshold 100 --threshold-type line
-
+            coverlet ${{ env.TEST_ASSEMBLY_PATH }} --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build --configuration Debug" --format cobertura --threshold 100 --threshold-type line
 
       # Login to Azure
       - name: Login to Azure
@@ -69,7 +71,7 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           scope: subscription
           region: ${{ vars.RESOURCE_LOCATION }}
-          template: ./infra/bicep/main.bicep
+          template: ${{ env.BICEP_TEMPLATE_PATH }}
           failOnStdErr: true
           deploymentName: 'bicep-deployment-${{ env.guid }}'
 
@@ -139,13 +141,13 @@ jobs:
           azure_static_web_apps_api_token: ${{ env.STATIC_WEB_APP_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
-          app_location: '/src/Blazor.WebAssembly'
+          app_location: '/${{ env.BLAZOR_APP_PATH }}'
           output_location: 'wwwroot'
-          app_build_command: 'dotnet publish src/Blazor.WebAssembly -c Release -o src/Blazor.WebAssembly/wwwroot'
+          app_build_command: 'dotnet publish ${{ env.BLAZOR_APP_PATH }} -c Release -o ${{ env.BLAZOR_APP_PATH }}/wwwroot'
 
       # Verify the contents of the publish directory
       - name: Verify publish directory contents
-        run: ls -R src/Blazor.WebAssembly/wwwroot
+        run: ls -R ${{ env.BLAZOR_APP_PATH }}/wwwroot
 
       # Logout of Azure
       - name: Logout of Azure
