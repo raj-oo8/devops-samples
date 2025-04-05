@@ -37,12 +37,12 @@ jobs:
       - name: Build the Test Project
         run: |
           dotnet build ${{ env.TEST_PROJECT_PATH }} -o build_output
-          echo "TEST_DLL_PATH=$(find build_output -name 'Azure.Functions.Tests.dll')" >> $GITHUB_ENV
+          #echo "TEST_DLL_PATH=$(find build_output -name 'Azure.Functions.Tests.dll')" >> $GITHUB_ENV
 
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
-          coverlet ${{ env.TEST_DLL_PATH }} --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
+          coverlet build_output/Azure.Functions.Tests.dll --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build" --format cobertura --threshold 100 --threshold-type line
 
       # Login to Azure
       - name: Login to Azure
