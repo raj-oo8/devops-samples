@@ -18,6 +18,27 @@ jobs:
         with:
           submodules: true
 
+      # Setup DotNet 9.0 Environment for Tests
+      - name: Setup DotNet 9.0 Environment for Tests
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0
+
+      # Run Tests and Collect Coverage
+      - name: Run Tests and Collect Coverage
+        run: |
+          dotnet test --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~Azure.Functions"
+
+      # Check Coverage
+      - name: Check Coverage
+        run: |
+          COVERAGE_FILE=$(find . -name 'coverage.cobertura.xml')
+          COVERAGE=$(xmllint --xpath "string(//coverage/@line-rate)" $COVERAGE_FILE)
+          if (( $(echo "$COVERAGE < 1.0" | bc -l) )); then
+            echo "Code coverage is less than 100% ($COVERAGE)"
+            exit 1
+          fi
+
       # Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
