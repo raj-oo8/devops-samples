@@ -24,3 +24,9 @@ This repository contains sample projects covering various topics to demonstrate 
 
 - GitHub Actions
 - GitHub Advanced Security
+
+### Testing Frameworks
+- xUnit.net
+- NSubstitute
+- Coverlet
+
