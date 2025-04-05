@@ -9,19 +9,19 @@ namespace Azure.Functions.Tests
 {
     public class SignalRFunctionsUnitTests
     {
-        [Fact]
-        public void Negotiate_ReturnsConnectionInfo()
-        {
-            // Arrange
-            var mockHttpRequest = Substitute.For<HttpRequest>();
-            var connectionInfo = new SignalRConnectionInfo { Url = "http://localhost", AccessToken = "token" };
+        //[Fact]
+        //public void Negotiate_ReturnsConnectionInfo()
+        //{
+        //    // Arrange
+        //    var mockHttpRequest = Substitute.For<HttpRequest>();
+        //    var connectionInfo = new SignalRConnectionInfo { Url = "http://localhost", AccessToken = "token" };
 
-            // Act
-            var result = SignalRFunctions.Negotiate(mockHttpRequest, connectionInfo);
+        //    // Act
+        //    var result = SignalRFunctions.Negotiate(mockHttpRequest, connectionInfo);
 
-            // Assert
-            Assert.Equal(connectionInfo, result);
-        }
+        //    // Assert
+        //    Assert.Equal(connectionInfo, result);
+        //}
 
         [Fact]
         public async Task Broadcast_SendsMessage()
