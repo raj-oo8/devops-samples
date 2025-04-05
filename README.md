@@ -26,7 +26,7 @@ This repository contains sample projects covering various topics to demonstrate 
 - GitHub Advanced Security
 
 ### Testing Frameworks
-- xUnit
+- xUnit.net
 - NSubstitute
 - Coverlet
 
