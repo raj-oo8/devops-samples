@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
+      TEST_PROJECT_PATH: 'Azure.Functions.Tests/Azure.Functions.Tests.csproj'
 
     steps:
 
