@@ -1,4 +1,4 @@
-# DevOps Samples
+# DevOps Samples2
 
 This repository contains sample projects covering various topics to demonstrate different features and functionalities.
 
