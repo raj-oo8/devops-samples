@@ -9,7 +9,7 @@ This repository contains sample projects covering various topics to demonstrate 
 - Terraform
 - Azure Resource Manager (ARM)
 - Bicep
-- Azure CLI
+- Azure Command Line Interface (CLI)
 
 ### Web Development
 
@@ -20,7 +20,7 @@ This repository contains sample projects covering various topics to demonstrate 
 - Azure SignalR
 - Web Push
 
-### CI/CD Pipelines
+### Continuous Integration/Continuous Deployment (CI/CD) Pipelines
 
 - GitHub Actions
 - GitHub Advanced Security
