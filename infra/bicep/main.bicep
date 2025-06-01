@@ -1,5 +1,5 @@
 var subscriptionId = subscription().subscriptionId
-var uniqueSuffix = substring(subscriptionId, length(subscriptionId) - 3, 3)
+var uniqueSuffix = guid(subscription().subscriptionId)
 var location = 'eastasia'
 
 targetScope='subscription'
