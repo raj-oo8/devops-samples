@@ -3,9 +3,9 @@ on: workflow_dispatch
 
 jobs:
 
-  #====== Provision and Deploy ======#
-  provision_and_deploy:
-    name: "Provision and Deploy"
+  #====== Build and Test ======#
+  build_and_test:
+    name: "Build and Test"
     runs-on: ubuntu-latest
     env:
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
@@ -13,56 +13,61 @@ jobs:
       TEST_ASSEMBLY_PATH: 'src/Azure.Functions.Tests/bin/Debug/net9.0/Azure.Functions.Tests.dll'
       BICEP_TEMPLATE_PATH: './infra/bicep/main.bicep'
       BLAZOR_APP_PATH: 'src/Blazor.WebAssembly'
-
     steps:
-
       # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: true
-
       # Setup DotNet 9.0 Environment for Tests
       - name: Setup DotNet 9.0 Environment for Tests
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0
-
       # Install Coverlet Console
       - name: Install Coverlet Console
         run: dotnet tool install --global coverlet.console
-
       # Add .NET tools to PATH
       - name: Add .NET tools to PATH
         run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
       # Build the Test Project
       - name: Build the Test Project
         run: dotnet build ${{ env.TEST_PROJECT_PATH }} --configuration Debug
-
       # Run Tests and Collect Coverage
       - name: Run Tests and Collect Coverage
         run: |
             coverlet ${{ env.TEST_ASSEMBLY_PATH }} --target "dotnet" --targetargs "test ${{ env.TEST_PROJECT_PATH }} --no-build --configuration Debug" --format cobertura --threshold 100 --threshold-type line
 
+  #====== Deploy ======#
+  deploy:
+    name: "Provision and Deploy"
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    env:
+      AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Azure.Functions'
+      BICEP_TEMPLATE_PATH: './infra/bicep/main.bicep'
+      BLAZOR_APP_PATH: 'src/Blazor.WebAssembly'
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
       # Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       # Register Resource Providers
       - name: Register Resource Providers
         run: |
           az provider register --namespace Microsoft.SignalRService
           az provider register --namespace Microsoft.Storage
           az provider register --namespace Microsoft.Web
-
       # Generate a new GUID
       - name: Generate New GUID
         id: generate-guid
         run: echo "guid=$(uuidgen)" >> $GITHUB_ENV
-
       # Deploy Bicep template
       - name: Deploy Bicep Template
         id: bicep
@@ -74,7 +79,6 @@ jobs:
           template: ${{ env.BICEP_TEMPLATE_PATH }}
           failOnStdErr: true
           deploymentName: 'bicep-deployment-${{ env.guid }}'
-
       # Get the output params of the Bicep deployment
       - name: Get Output Parameters
         id: get-output-params
@@ -83,13 +87,11 @@ jobs:
           echo "AZURE_FUNCTIONAPP_NAME=${{ steps.bicep.outputs.functionAppName }}" >> $GITHUB_ENV
           echo "RESOURCE_GROUP_NAME=${{ steps.bicep.outputs.newResourceGroupName }}" >> $GITHUB_ENV
           echo "AZURE_FUNCTIONAPP_ENDPOINT=${{ steps.bicep.outputs.functionAppEndpoint }}" >> $GITHUB_ENV
-      
       # Deploy to Azure Functions
       - name: Setup DotNet 8.0 Environment
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0
-
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: bash
         run: |
@@ -97,14 +99,12 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
-
       # Get Azure Functions Publish Profile
       - name: Get Azure Functions Publish Profile
         id: get-publish-profile
         run: |
           az functionapp deployment list-publishing-profiles --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --xml > publishProfile.xml
           echo "AZURE_FUNCTIONAPP_PUBLISH_PROFILE=$(cat publishProfile.xml)" >> $GITHUB_ENV
-
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
@@ -112,28 +112,23 @@ jobs:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ env.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-      
       # Get Azure Static Web App deployment token
       - name: Get Azure Static Web App deployment token
         id: get-token
         run: |
           TOKEN=$(az staticwebapp secrets list --name ${{ env.STATIC_WEB_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "properties.apiKey" -o tsv)
           echo "STATIC_WEB_APP_TOKEN=$TOKEN" >> $GITHUB_ENV
-
       # Update appsettings.json with Function App endpoint
       - name: Update appsettings.json
         run: |
           jq --arg endpoint "https://${{ env.AZURE_FUNCTIONAPP_ENDPOINT }}/api" '.SignalR.Url = $endpoint' src/Blazor.WebAssembly/wwwroot/appsettings.json > tmp.$$.json && mv tmp.$$.json src/Blazor.WebAssembly/wwwroot/appsettings.json
-      
       - name: Display updated appsettings.json
         run: cat src/Blazor.WebAssembly/wwwroot/appsettings.json
-
       # Deploy to Azure Static Web Apps
       - name: Setup DotNet 9.0 Environment
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0
-
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -144,11 +139,9 @@ jobs:
           app_location: '/${{ env.BLAZOR_APP_PATH }}'
           output_location: 'wwwroot'
           app_build_command: 'dotnet publish ${{ env.BLAZOR_APP_PATH }} -c Release -o ${{ env.BLAZOR_APP_PATH }}/wwwroot'
-
       # Verify the contents of the publish directory
       - name: Verify publish directory contents
         run: ls -R ${{ env.BLAZOR_APP_PATH }}/wwwroot
-
       # Logout of Azure
       - name: Logout of Azure
         run: |

@@ -1,5 +1,4 @@
-var subscriptionId = subscription().subscriptionId
-var uniqueSuffix = guid(subscription().subscriptionId)
+var uniqueSuffix = replace(guid(subscription().subscriptionId), '-', '')
 var location = 'eastasia'
 
 targetScope='subscription'
